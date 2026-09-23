@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CareerBridge — Unified Student Career Development Platform</title>
+    <meta name="description" content="Unified student career development platform for skill gap analysis, AI career recommendations, government schemes eligibility, and personalized career roadmaps.">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a class="brand" data-view="landing">
+                <div class="brand-icon">CB</div>
+                <span data-i18n="brandName">AI CareerBridge</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a class="nav-link guest-only" data-view="landing" data-i18n="navHome">Home</a></li>
+                <li><a class="nav-link auth-only" data-view="dashboard" data-i18n="navDashboard">Dashboard</a></li>
+                <li><a class="nav-link auth-only" data-view="profile" data-i18n="navProfile">Profile</a></li>
+                <li><a class="nav-link auth-only" data-view="skills" data-i18n="navSkills">Skills</a></li>
+                <li><a class="nav-link auth-only" data-view="analysis" data-i18n="navAnalysis">Skill Analysis</a></li>
+                <li><a class="nav-link auth-only" data-view="recommendations" data-i18n="navRecommendations">Career AI</a></li>
+                <li><a class="nav-link auth-only" data-view="internships" data-i18n="navInternships">Internships</a></li>
+                <li><a class="nav-link auth-only" data-view="jobs" data-i18n="navJobs">Jobs</a></li>
+                <li><a class="nav-link auth-only" data-view="schemes" data-i18n="navSchemes">Govt Schemes</a></li>
+                <li><a class="nav-link auth-only" data-view="roadmap" data-i18n="navRoadmap">Roadmap</a></li>
+            </ul>
+
+            <div class="nav-controls">
+                <!-- Bilingual Toggle -->
+                <div class="lang-switcher">
+                    <button id="lang-btn-en" class="lang-btn active">English</button>
+                    <button id="lang-btn-ta" class="lang-btn">தமிழ்</button>
+                </div>
+
+                <div class="guest-only">
+                    <a class="btn btn-outline" data-view="login" data-i18n="navLogin">Login</a>
+                    <a class="btn btn-primary" data-view="register" data-i18n="navRegister">Register</a>
+                </div>
+
+                <div class="auth-only" style="display: none;">
+                    <span id="nav-user-name" style="font-weight: 600; font-size: 0.9rem; margin-right: 0.5rem;">User</span>
+                    <button id="btn-logout" class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.85rem;" data-i18n="navLogout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- MAIN VIEWS CONTAINER -->
+    <main class="container">
+
+        <!-- 1. LANDING PAGE VIEW -->
+        <section id="view-landing" class="view-page active">
+            <div class="hero">
+                <h1 data-i18n="heroTitle">Unified Student Career & Skill Gap Platform</h1>
+                <p data-i18n="heroSubtitle">Bridge your skills to industry requirements, discover eligible government schemes, and navigate your personalized AI career roadmap.</p>
+                <div class="hero-btns">
+                    <a class="btn btn-primary" data-view="register" data-i18n="getStartedBtn">Get Started Now</a>
+                    <a class="btn btn-secondary" data-view="login" data-i18n="tryDemoBtn">Try Live Demo</a>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3 style="color: var(--primary); font-size: 1.2rem; margin-bottom: 0.5rem;">Skill Gap Matrix</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Analyze student proficiency levels against real industry job role criteria. Get clear priority gap alerts.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--primary); font-size: 1.2rem; margin-bottom: 0.5rem;">Explainable AI Engine</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Deterministic, non-blackbox recommendations explaining exactly why a career matches your unique skill profile.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--primary); font-size: 1.2rem; margin-bottom: 0.5rem;">Govt Scheme Eligibility</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Rule-based eligibility checker matching student education, domicile, and criteria with official application links.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. LOGIN VIEW -->
+        <section id="view-login" class="view-page">
+            <div class="card" style="max-width: 480px; margin: 3rem auto;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;" data-i18n="navLogin">Login</h2>
+
+                <div style="background: var(--surface-alt); padding: 1rem; border-radius: var(--radius-sm); border: 1px dashed var(--primary); margin-bottom: 1.5rem;">
+                    <p style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="demoLoginText">Click below to auto-fill sample student credentials:</p>
+                    <button id="btn-demo-login" type="button" class="btn btn-secondary" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;" data-i18n="useDemoAccBtn">
+                        Use Demo Account (demo@student.local)
+                    </button>
+                </div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="emailAddress">Email Address</label>
+                        <input id="login-email" type="email" class="form-input" required placeholder="name@domain.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input id="login-password" type="password" class="form-input" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" data-i18n="navLogin">Login</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3. REGISTER VIEW -->
+        <section id="view-register" class="view-page">
+            <div class="card" style="max-width: 640px; margin: 2rem auto;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center;" data-i18n="navRegister">Student Registration</h2>
+                <form id="register-form">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="fullName">Full Name</label>
+                            <input id="reg-fullname" type="text" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="emailAddress">Email Address</label>
+                            <input id="reg-email" type="email" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input id="reg-password" type="password" class="form-input" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="phoneNumber">Phone Number</label>
+                            <input id="reg-phone" type="tel" class="form-input" placeholder="+91 9876543210">
+                        </div>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="dateOfBirth">Date of Birth</label>
+                            <input id="reg-dob" type="date" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="gender">Gender</label>
+                            <select id="reg-gender" class="form-select">
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="location">Location / State</label>
+                            <input id="reg-location" type="text" class="form-input" placeholder="Chennai, Tamil Nadu">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="educationLevel">Education Level</label>
+                            <select id="reg-education" class="form-select">
+                                <option value="Undergraduate">Undergraduate</option>
+                                <option value="Postgraduate">Postgraduate</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="12th Standard">12th Standard</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="institution">College / Institution</label>
+                            <input id="reg-institution" type="text" class="form-input" placeholder="Anna University">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="courseDegree">Course / Degree</label>
+                            <input id="reg-course" type="text" class="form-input" placeholder="B.E. Computer Science">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="graduationYear">Graduation Year</label>
+                            <input id="reg-gradyear" type="number" class="form-input" value="2026">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;" data-i18n="navRegister">Create Account</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 4. DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title"><span data-i18n="dashboardTitle">Student Control Dashboard</span> — Welcome, <span id="dash-user-name">Student</span></h1>
+                    <div id="dash-user-course" class="page-subtitle">Course Details</div>
+                </div>
+                <div>
+                    <a class="btn btn-primary" data-view="roadmap" data-i18n="navRoadmap">View Full Roadmap →</a>
+                </div>
+            </div>
+
+            <div class="grid-4" style="margin-bottom: 2rem;">
+                <div class="card">
+                    <div style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="profileCompletion">Profile Completion</div>
+                    <div id="dash-profile-pct" style="font-size: 1.8rem; font-weight: 800; color: var(--primary);">0%</div>
+                    <div class="progress-container">
+                        <div id="dash-profile-progress" class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="topCareerRecommendation">Top Career Match</div>
+                    <div id="dash-top-career" style="font-size: 1.25rem; font-weight: 700; margin-top: 0.25rem;">-</div>
+                    <span id="dash-top-match" class="badge badge-success" style="margin-top: 0.25rem;">-</span>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="skillOverview">Total Verified Skills</div>
+                    <div id="dash-total-skills" style="font-size: 1.8rem; font-weight: 800; color: var(--secondary);">0</div>
+                    <a class="btn btn-outline" data-view="skills" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-top: 0.25rem;">Manage Skills</a>
+                </div>
+
+                <div class="card">
+                    <div style="font-size: 0.85rem; color: var(--text-muted);" data-i18n="eligibleGovtSchemes">Eligible Govt Schemes</div>
+                    <div id="dash-eligible-schemes-count" style="font-size: 1.8rem; font-weight: 800; color: var(--success);">0</div>
+                    <a class="btn btn-outline" data-view="schemes" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; margin-top: 0.25rem;">Check Schemes</a>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem;" data-i18n="whyRecommended">Top Recommendation Rationale</h3>
+                    <p id="dash-top-why" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;">-</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid var(--primary);">
+                    <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem;" data-i18n="nextRecommendedAction">Next Recommended Action</h3>
+                    <h4 id="dash-next-step-title" style="color: var(--primary); font-size: 1rem; margin-bottom: 0.25rem;">-</h4>
+                    <p id="dash-next-step-desc" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">-</p>
+                    <a class="btn btn-primary" data-view="analysis" style="font-size: 0.85rem;" data-i18n="navAnalysis">Run Skill Analysis →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. PROFILE VIEW -->
+        <section id="view-profile" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" data-i18n="profileTitle">Student Profile & Education</h1>
+                    <div class="page-subtitle">Update your personal, educational, and career domain preferences.</div>
+                </div>
+            </div>
+
+            <div class="card" style="max-width: 800px;">
+                <form id="profile-form">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="fullName">Full Name</label>
+                            <input id="prof-fullname" type="text" class="form-input" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="emailAddress">Email Address</label>
+                            <input id="prof-email" type="email" class="form-input" disabled>
+                        </div>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="phoneNumber">Phone Number</label>
+                            <input id="prof-phone" type="tel" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="dateOfBirth">Date of Birth</label>
+                            <input id="prof-dob" type="date" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="gender">Gender</label>
+                            <select id="prof-gender" class="form-select">
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="location">Location / State</label>
+                            <input id="prof-location" type="text" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="educationLevel">Education Level</label>
+                            <select id="prof-education" class="form-select">
+                                <option value="Undergraduate">Undergraduate</option>
+                                <option value="Postgraduate">Postgraduate</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="12th Standard">12th Standard</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="institution">College / Institution</label>
+                            <input id="prof-institution" type="text" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="courseDegree">Course / Degree</label>
+                            <input id="prof-course" type="text" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="graduationYear">Graduation Year</label>
+                            <input id="prof-gradyear" type="number" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label class="form-label" data-i18n="careerInterests">Target Career Interests</label>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.5rem;">
+                            <label><input type="checkbox" class="interest-checkbox" value="Software Developer"> Software Developer</label>
+                            <label><input type="checkbox" class="interest-checkbox" value="Data Analyst"> Data Analyst</label>
+                            <label><input type="checkbox" class="interest-checkbox" value="AI/ML Engineer"> AI/ML Engineer</label>
+                            <label><input type="checkbox" class="interest-checkbox" value="Cybersecurity Analyst"> Cybersecurity Analyst</label>
+                            <label><input type="checkbox" class="interest-checkbox" value="Cloud Engineer"> Cloud Engineer</label>
+                            <label><input type="checkbox" class="interest-checkbox" value="UI/UX Designer"> UI/UX Designer</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-top: 1.5rem;" data-i18n="saveProfileBtn">Save Profile Changes</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 6. SKILLS VIEW -->
+        <section id="view-skills" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" data-i18n="skillsTitle">Skill Management System</h1>
+                    <div class="page-subtitle">Add technical, data, cloud, or leadership skills and rate your proficiency level.</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem;" data-i18n="addSkillHeader">Add / Update Skill</h3>
+                <form id="add-skill-form" class="grid-3" style="align-items: flex-end;">
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" data-i18n="skillName">Skill Name</label>
+                        <input id="skill-input-name" type="text" class="form-input" list="master-skills-list" placeholder="e.g. Python, SQL" required>
+                        <datalist id="master-skills-list"></datalist>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" data-i18n="category">Category</label>
+                        <select id="skill-input-cat" class="form-select">
+                            <option value="Programming">Programming</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Data">Data</option>
+                            <option value="AI/ML">AI/ML</option>
+                            <option value="Cloud">Cloud</option>
+                            <option value="Cybersecurity">Cybersecurity</option>
+                            <option value="Communication">Communication</option>
+                            <option value="Leadership">Leadership</option>
+                            <option value="Design">Design</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <label class="form-label" data-i18n="proficiencyLevel">Proficiency</label>
+                        <select id="skill-input-prof" class="form-select">
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                            <option value="Expert">Expert</option>
+                        </select>
+                    </div>
+                    <div style="grid-column: 1 / -1; margin-top: 1rem;">
+                        <button type="submit" class="btn btn-primary" data-i18n="addSkillBtn">Add Skill to Profile</button>
+                    </div>
+                </form>
+            </div>
+
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;" data-i18n="yourSkills">Your Skills Profile</h3>
+            <div id="skills-card-grid" class="grid-2"></div>
+        </section>
+
+        <!-- 7. SKILL ANALYSIS & GAP VIEW -->
+        <section id="view-analysis" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" data-i18n="analysisTitle">Skill & Gap Analysis</h1>
+                    <div class="page-subtitle">Real-time numerical breakdown of your current skill levels vs target industry standards.</div>
+                </div>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 2rem;">
+                <div class="card">
+                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--success); margin-bottom: 0.75rem;" data-i18n="strongSkills">Strong Skills</h4>
+                    <div id="analysis-strong-list"></div>
+                </div>
+                <div class="card">
+                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 0.75rem;" data-i18n="moderateSkills">Moderate Skills</h4>
+                    <div id="analysis-moderate-list"></div>
+                </div>
+                <div class="card">
+                    <h4 style="font-size: 1rem; font-weight: 700; color: var(--warning); margin-bottom: 0.75rem;" data-i18n="beginnerSkills">Beginner Skills</h4>
+                    <div id="analysis-beginner-list"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem;">Target Career Skill Gap Matrix</h3>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="background: var(--surface-alt); border-bottom: 2px solid var(--border);">
+                                <th style="padding: 0.85rem;" data-i18n="skillName">Skill</th>
+                                <th style="padding: 0.85rem;">Current Level</th>
+                                <th style="padding: 0.85rem;">Required Level</th>
+                                <th style="padding: 0.85rem;">Gap Priority</th>
+                                <th style="padding: 0.85rem;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gaps-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. CAREER RECOMMENDATIONS VIEW -->
+        <section id="view-recommendations" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" data-i18n="recommendationsTitle">Explainable AI Career Recommendations</h1>
+                    <div class="page-subtitle">Weighted matching algorithm analyzing skill overlaps and career interest alignment.</div>
+                </div>
+            </div>
+
+            <div id="recommendations-grid"></div>
+        </section>
+
+        <!-- 9. INTERNSHIPS VIEW -->
+        <section id="view-internships" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" data-i18n="internshipsTitle">Industry Internship Opportunities</h1>
+                    <div class="page-subtitle">Dynamic skill matching calculation comparing your profile against live internships.</div>
+                </div>
+            </div>
+
+            <div id="internships-grid"></div>
+        </section>
+
+        <!-- 10. JOBS VIEW -->
+        <section id="view-jobs" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" data-i18n="jobsTitle">Placement Job Opportunities</h1>
+                    <div class="page-subtitle">Verified full-time placement openings matching your career trajectory.</div>
+                </div>
+            </div>
+
+            <div id="jobs-grid"></div>
+        </section>
+
+        <!-- 11. GOVERNMENT SCHEMES VIEW -->
+        <section id="view-schemes" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" data-i18n="schemesTitle">Government Student Schemes & Support</h1>
+                    <div class="page-subtitle">Rule-based eligibility checker evaluating education, domicile, age, and document status.</div>
+                </div>
+            </div>
+
+            <div id="schemes-grid"></div>
+        </section>
+
+        <!-- 12. CAREER ROADMAP VIEW -->
+        <section id="view-roadmap" class="view-page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title" data-i18n="roadmapTitle">Your Personalized 7-Step Career Roadmap</h1>
+                    <div class="page-subtitle">Unified step-by-step career path for target goal: <strong id="roadmap-target-career" style="color: var(--primary);">-</strong></div>
+                </div>
+            </div>
+
+            <div id="roadmap-steps-container" class="roadmap-timeline"></div>
+        </section>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="./js/i18n.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>

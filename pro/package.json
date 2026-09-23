@@ -1,0 +1,13 @@
+{
+  "name": "pro",
+  "version": "1.0.0",
+  "description": "A complete, working end-to-end full-stack web application designed to empower students through skill analysis, skill gap calculation, explainable AI career recommendations, industry internship and job matching, rule-based government scheme eligibility evaluation, and personalized career roadmaps with real-time English and Tamil UI support.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
